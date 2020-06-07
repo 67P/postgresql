@@ -24,6 +24,7 @@ property :ident_file,        String, default: lazy { "#{conf_dir}/main/pg_ident.
 property :external_pid_file, String, default: lazy { "/var/run/postgresql/#{version}-main.pid" }
 property :password,          [String, nil], default: 'generate' # Set to nil if we do not want to set a password
 property :port,              Integer, default: 5432
+property :data_directory,    String
 property :initdb_locale,     String
 property :initdb_encoding,   String
 
@@ -53,6 +54,7 @@ action :install do
       source 'createcluster.conf.erb'
       cookbook 'postgresql'
       variables(
+        data_directory: new_resource.data_directory,
         initdb_options: initdb_options
       )
     end
